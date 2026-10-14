@@ -7,6 +7,7 @@ import { Sun, Moon, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navLinks = [
+  { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Tech Stack", href: "#tech-stack" },
   { label: "Projects", href: "#projects" },
@@ -17,22 +18,50 @@ const navLinks = [
 export default function Navbar() {
   const [isDark, setIsDark] = useState(false);
 
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (href === "#" || href === "#home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      history.pushState(null, "", "#home");
+      return;
+    }
+    const id = href.replace("#", "");
+    const target = document.getElementById(id);
+    if (target) {
+      const navOffset = 84;
+      const targetPos = target.getBoundingClientRect().top + window.pageYOffset - navOffset;
+      window.scrollTo({
+        top: Math.max(0, targetPos),
+        behavior: "smooth",
+      });
+      history.pushState(null, "", href);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full h-[76px] sm:h-[82px] bg-[#FBF9F5]/90 backdrop-blur-md border-b border-black/10 flex items-center">
       <div className="w-full max-w-[1104px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-2">
         {/* avatar */}
-        <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
+        <Link
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            history.pushState(null, "", "/");
+          }}
+          className="flex items-center gap-2 sm:gap-3 group shrink-0"
+        >
           <motion.div
             whileHover={{ scale: 1.05, rotate: -2 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border-2 border-black overflow-hidden bg-[#FFECC7] flex items-center justify-center shadow-[2px_2px_0px_#000] shrink-0"
+            className="w-9 h-9 sm:w-10 sm:h-10 shrink-0"
           >
             <Image
               src="/assets/profile-picture.png"
               alt="padly.dev avatar"
               width={40}
               height={40}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </motion.div>
           <div className="flex flex-col">
@@ -48,14 +77,15 @@ export default function Navbar() {
         {/*Navbar ceunah*/}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.label}
               href={link.href}
-              className="text-[14px] font-semibold leading-[20px] text-[#141414] hover:text-[#FF5C00] transition-colors relative group"
+              onClick={(e) => handleScrollTo(e, link.href)}
+              className="text-[14px] font-semibold leading-[20px] text-[#141414] hover:text-[#FF5C00] transition-colors relative group cursor-pointer"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FF5C00] transition-all group-hover:w-full" />
-            </Link>
+            </a>
           ))}
         </nav>
 

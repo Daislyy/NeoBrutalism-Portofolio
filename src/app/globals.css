@@ -14,6 +14,7 @@
 
 @theme {
   --font-fredoka: var(--font-fredoka), cursive, sans-serif;
+  --font-inter: var(--font-inter), sans-serif;
   --color-canvas: #FBF9F5;
   --color-yellow-primary: #FFB800;
   --color-orange-primary: #FF5C00;
@@ -21,6 +22,11 @@
   --color-gray-panel: #F0F0F0;
   --color-lavender: #C084FC;
   --color-badge-yellow: #FFD600;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
 }
 
 body {

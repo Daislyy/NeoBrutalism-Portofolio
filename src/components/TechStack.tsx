@@ -163,7 +163,7 @@ export default function TechStack() {
   return (
     <section
       id="tech-stack"
-      className="w-full border-t-2 border-b-2 border-black py-16 sm:py-20 my-8 overflow-hidden"
+      className="w-full py-16 sm:py-20 my-8 overflow-hidden"
       style={{ fontFamily: "var(--font-fredoka), cursive, sans-serif" }}
     >
       <div className="w-full max-w-[1104px] mx-auto px-6">
