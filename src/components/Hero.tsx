@@ -9,10 +9,10 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="w-full min-h-[calc(100vh-82px)] flex items-center px-6 sm:px-[88px] pt-8 pb-24 overflow-hidden"
+      className="w-full min-h-[calc(100vh-76px)] sm:min-h-[calc(100vh-82px)] flex items-center px-4 sm:px-10 lg:px-[88px] pt-6 sm:pt-8 pb-16 sm:pb-24 overflow-hidden"
       style={{ backgroundColor: "#FBF9F5" }}
     >
-      <div className="w-full max-w-[1104px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="w-full max-w-[1104px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         {/* Left Column Content */}
         <motion.div
           className="flex flex-col gap-6"
@@ -153,7 +153,7 @@ export default function Hero() {
 
         {/* Music Player with subtle ambient float */}
         <motion.div
-          className="flex justify-center lg:justify-end"
+          className="w-full flex justify-center lg:justify-end"
           initial={{ opacity: 0, x: 40, scale: 0.95 }}
           animate={{
             opacity: 1,
@@ -168,6 +168,7 @@ export default function Hero() {
           }}
         >
           <motion.div
+            className="w-full max-w-[480px] flex justify-center"
             animate={{
               y: [0, -6, 0],
             }}

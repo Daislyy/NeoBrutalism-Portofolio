@@ -52,7 +52,7 @@ const techCategories: TechCategory[] = [
       },
       {
         name: "TypeScript",
-        level: "Intermedi",
+        level: "Intermediate",
         icon: <SiTypescript size={16} className="text-white" />,
         iconBg: "bg-[#2563eb]",
       },
@@ -63,7 +63,7 @@ const techCategories: TechCategory[] = [
         iconBg: "bg-[#facc15]",
       },
       {
-        name: "Tailwind...",
+        name: "Tailwind CSS",
         level: "Advanced",
         icon: <SiTailwindcss size={18} className="text-[#06b6d4]" />,
         iconBg: "bg-[#ecfeff]",
@@ -76,14 +76,14 @@ const techCategories: TechCategory[] = [
       "Cross-platform mobile applications with fluid gestures and offline sync.",
     items: [
       {
-        name: "React ...",
-        level: "Intermedi",
+        name: "React.js",
+        level: "Intermediate",
         icon: <SiReact size={18} className="text-[#0ea5e9]" />,
         iconBg: "bg-[#e0f2fe]",
       },
       {
         name: "Expo",
-        level: "Intermedi",
+        level: "Intermediate",
         icon: <SiExpo size={17} className="text-[#000000]" />,
         iconBg: "bg-[#f4f4f5]",
       },
@@ -96,25 +96,25 @@ const techCategories: TechCategory[] = [
     items: [
       {
         name: "Node.js",
-        level: "Intermedi",
+        level: "Intermediate",
         icon: <SiNodedotjs size={18} className="text-[#16a34a]" />,
         iconBg: "bg-[#dcfce7]",
       },
       {
-        name: "Expres...",
-        level: "Intermedi",
+        name: "Express.js",
+        level: "Intermediate",
         icon: <SiExpress size={18} className="text-[#141414]" />,
         iconBg: "bg-[#f4f4f5]",
       },
       {
-        name: "Supab...",
-        level: "Intermedi",
+        name: "Supabase",
+        level: "Intermediate",
         icon: <SiSupabase size={17} className="text-[#10b981]" />,
         iconBg: "bg-[#dcfce7]",
       },
       {
         name: "MySQL",
-        level: "Intermedi",
+        level: "Intermediate",
         icon: <SiMysql size={20} className="text-[#0284c7]" />,
         iconBg: "bg-[#e0f2fe]",
       },
@@ -145,7 +145,7 @@ const techCategories: TechCategory[] = [
       },
       {
         name: "Docker",
-        level: "Intermedi",
+        level: "Intermediate",
         icon: <SiDocker size={18} className="text-[#2563eb]" />,
         iconBg: "bg-[#dbeafe]",
       },

@@ -47,13 +47,13 @@ export default function MusicPlayer() {
   const progress = elapsed / TRACK.duration;
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-[480px] mx-auto">
       <div
-        className="absolute inset-0 rounded-[24px] translate-x-[8px] translate-y-[8px]"
+        className="absolute inset-0 rounded-[20px] sm:rounded-[24px] translate-x-[6px] translate-y-[6px] sm:translate-x-[8px] sm:translate-y-[8px]"
         style={{ backgroundColor: "#FFB800", border: "2.5px solid #000" }}
       />
       <div
-        className="relative w-[480px] rounded-[24px] p-5 flex flex-col gap-2.5"
+        className="relative w-full rounded-[20px] sm:rounded-[24px] p-4 sm:p-5 flex flex-col gap-2 sm:gap-2.5"
         style={{
           backgroundColor: "#FFECC7",
           border: "2.5px solid #000000",
@@ -90,10 +90,10 @@ export default function MusicPlayer() {
         </div>
 
         <div className="mt-0">
-          <h3 className="text-[38px] font-bold text-[#141414] leading-[1]">
+          <h3 className="text-[26px] sm:text-[34px] md:text-[38px] font-bold text-[#141414] leading-[1.05] tracking-tight">
             {TRACK.title}
           </h3>
-          <p className="text-[15px] font-medium text-[#6B7280] mt-1">
+          <p className="text-[13px] sm:text-[15px] font-medium text-[#6B7280] mt-0.5 sm:mt-1 truncate">
             {TRACK.artist}
           </p>
         </div>
@@ -135,21 +135,21 @@ export default function MusicPlayer() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-3 mt-0">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 mt-1 sm:mt-0">
           <motion.button
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.94, x: 1, y: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             onClick={() => setIsShuffle(!isShuffle)}
             aria-label="Shuffle"
-            className="w-10 h-10 rounded-[12px] flex items-center justify-center cursor-pointer"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0"
             style={{
               backgroundColor: isShuffle ? "#FFD600" : "#fff",
               border: "2px solid #000",
               boxShadow: "2px 2px 0 0 #000",
             }}
           >
-            <Shuffle size={17} strokeWidth={2.5} className="text-[#141414]" />
+            <Shuffle size={16} strokeWidth={2.5} className="text-[#141414]" />
           </motion.button>
 
           <motion.button
@@ -157,11 +157,11 @@ export default function MusicPlayer() {
             whileTap={{ scale: 0.94, x: 1, y: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             aria-label="Previous"
-            className="w-10 h-10 rounded-[12px] bg-white flex items-center justify-center cursor-pointer"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] bg-white flex items-center justify-center cursor-pointer shrink-0"
             style={{ border: "2px solid #000", boxShadow: "2px 2px 0 #000" }}
             onClick={() => setElapsed((prev) => Math.max(0, prev - 10))}
           >
-            <SkipBack size={18} strokeWidth={2.5} className="fill-[#141414] text-[#141414]" />
+            <SkipBack size={16} strokeWidth={2.5} className="fill-[#141414] text-[#141414]" />
           </motion.button>
 
           <motion.button
@@ -170,7 +170,7 @@ export default function MusicPlayer() {
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             onClick={() => setIsPlaying(!isPlaying)}
             aria-label={isPlaying ? "Pause" : "Play"}
-            className="w-14 h-14 rounded-full flex items-center justify-center text-white cursor-pointer"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white cursor-pointer shrink-0"
             style={{
               backgroundColor: "#141414",
               border: "2px solid #000",
@@ -178,9 +178,9 @@ export default function MusicPlayer() {
             }}
           >
             {isPlaying ? (
-              <Pause size={22} strokeWidth={2.5} className="fill-white text-white" />
+              <Pause size={20} strokeWidth={2.5} className="fill-white text-white" />
             ) : (
-              <Play size={22} strokeWidth={2.5} className="fill-white text-white ml-0.5" />
+              <Play size={20} strokeWidth={2.5} className="fill-white text-white ml-0.5" />
             )}
           </motion.button>
 
@@ -189,11 +189,11 @@ export default function MusicPlayer() {
             whileTap={{ scale: 0.94, x: 1, y: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             aria-label="Next"
-            className="w-10 h-10 rounded-[12px] bg-white flex items-center justify-center cursor-pointer"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] bg-white flex items-center justify-center cursor-pointer shrink-0"
             style={{ border: "2px solid #000", boxShadow: "2px 2px 0 #000" }}
             onClick={() => setElapsed((prev) => Math.min(TRACK.duration, prev + 10))}
           >
-            <SkipForward size={18} strokeWidth={2.5} className="fill-[#141414] text-[#141414]" />
+            <SkipForward size={16} strokeWidth={2.5} className="fill-[#141414] text-[#141414]" />
           </motion.button>
 
           <motion.button
@@ -202,7 +202,7 @@ export default function MusicPlayer() {
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             onClick={() => setIsRepeat(!isRepeat)}
             aria-label="Repeat"
-            className="w-10 h-10 rounded-[12px] flex items-center justify-center cursor-pointer"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0"
             style={{
               backgroundColor: isRepeat ? "#C084FC" : "#fff",
               border: "2px solid #000",
@@ -210,7 +210,7 @@ export default function MusicPlayer() {
             }}
           >
             <Repeat
-              size={17}
+              size={16}
               strokeWidth={2.5}
               className={isRepeat ? "text-white" : "text-[#141414]"}
             />
