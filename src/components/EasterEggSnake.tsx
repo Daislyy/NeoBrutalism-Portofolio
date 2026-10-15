@@ -292,50 +292,247 @@ export default function EasterEggSnake() {
         ctx.fill(); ctx.stroke(); ctx.restore();
       }
 
-      // Body
-      for (let i = body.length-1; i >= 0; i--) {
-        const t = i/(body.length-1);
-        const color = RAGE_COLORS[Math.min(i,RAGE_COLORS.length-1)];
-        const size  = PIXEL - PIXEL*.45*t;
-        ctx.save();
-        ctx.globalAlpha = 1-t*.4;
-        if (i===0) { ctx.shadowColor="#FF0000"; ctx.shadowBlur=18+rageLevel*24; }
-        else if (i<5) { ctx.shadowColor="#FF2200"; ctx.shadowBlur=6; }
-        else { ctx.shadowColor="#000"; ctx.shadowBlur=0; ctx.shadowOffsetX=2; ctx.shadowOffsetY=2; }
-        ctx.fillStyle=color;
-        ctx.beginPath(); ctx.roundRect(body[i].x-size/2,body[i].y-size/2,size,size,i===0?5:2); ctx.fill();
-        ctx.shadowBlur=0; ctx.shadowOffsetX=0; ctx.strokeStyle="#000"; ctx.lineWidth=i===0?3:1.5; ctx.stroke();
+      // Body & Head Rendering
+      for (let i = body.length - 1; i >= 0; i--) {
+        const t = i / (body.length - 1);
+        const color = RAGE_COLORS[Math.min(i, RAGE_COLORS.length - 1)];
+        const size  = PIXEL - PIXEL * 0.45 * t;
+        const isTail = i === body.length - 1;
 
-        if (i===0) {
-          ctx.globalAlpha=1;
-          // Eyes
-          [[-5,-4],[5,-4]].forEach(([ex,ey])=>{
-            ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(body[0].x+ex,body[0].y+ey,4,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle="#FF0000"; ctx.beginPath(); ctx.arc(body[0].x+ex,body[0].y+ey,2.5,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle="#000"; ctx.beginPath(); ctx.arc(body[0].x+ex+.5,body[0].y+ey+.5,1.2,0,Math.PI*2); ctx.fill();
-          });
-          // Angry brows
-          ctx.strokeStyle="#000"; ctx.lineWidth=2.5; ctx.lineCap="square";
-          ctx.beginPath(); ctx.moveTo(body[0].x-9,body[0].y-9); ctx.lineTo(body[0].x-2,body[0].y-7); ctx.stroke();
-          ctx.beginPath(); ctx.moveTo(body[0].x+9,body[0].y-9); ctx.lineTo(body[0].x+2,body[0].y-7); ctx.stroke();
-          // Teeth
-          ctx.fillStyle="#000";
+        // Calculate segment angle along spine
+        let segAngle = 0;
+        if (i === 0) {
+          segAngle = Math.atan2(vel.y, vel.x);
+        } else {
+          const dx = body[i - 1].x - body[i].x;
+          const dy = body[i - 1].y - body[i].y;
+          segAngle = Math.atan2(dy, dx);
+        }
+
+        ctx.save();
+        ctx.translate(body[i].x, body[i].y);
+        ctx.rotate(segAngle);
+        ctx.globalAlpha = 1 - t * 0.35;
+
+        if (i === 0) {
+          // ─── GIANT RAGE VIPER HEAD ─────────────────────────────────
+          const tongueFlick = 12 + Math.sin(frameRef.current * 0.8) * 8 + rageLevel * 6;
+          const waggle = Math.sin(frameRef.current * 1.2) * 2.5;
+
+          // 1. Long Forked Venom Tongue (darts out from snout tip +20)
+          ctx.save();
+          ctx.strokeStyle = "#FF1A1A";
+          ctx.shadowColor = "#FF0000";
+          ctx.shadowBlur = 12 + rageLevel * 14;
+          ctx.lineWidth = 2.6;
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+
+          const stemStart = 18;
+          const stemEnd = stemStart + tongueFlick * 0.65;
+          const tipEnd = stemStart + tongueFlick;
+          const forkW = 5 + rageLevel * 2;
+
           ctx.beginPath();
-          ctx.moveTo(body[0].x-7,body[0].y+4);
-          [-5,-3,-1,1,3,5,7].forEach((xo,idx)=>{
-            ctx.lineTo(body[0].x+xo, body[0].y+(idx%2===0?8:4));
-          });
-          ctx.lineTo(body[0].x+7,body[0].y+4); ctx.fill();
-          // Tongue
-          const tx=vel.x!==0?Math.sign(vel.x):0, ty=vel.y!==0?Math.sign(vel.y):0;
-          ctx.shadowColor="#FF0000"; ctx.shadowBlur=8;
-          ctx.strokeStyle="#FF0000"; ctx.lineWidth=2.5;
-          ctx.beginPath(); ctx.moveTo(body[0].x+tx*12,body[0].y+ty*12); ctx.lineTo(body[0].x+tx*22,body[0].y+ty*22); ctx.stroke();
+          ctx.moveTo(stemStart, 0);
+          ctx.quadraticCurveTo((stemStart + stemEnd) / 2, waggle, stemEnd, waggle * 0.5);
+          ctx.stroke();
+
           ctx.beginPath();
-          ctx.moveTo(body[0].x+tx*22,body[0].y+ty*22); ctx.lineTo(body[0].x+tx*28-ty*6,body[0].y+ty*28-tx*6);
-          ctx.moveTo(body[0].x+tx*22,body[0].y+ty*22); ctx.lineTo(body[0].x+tx*28+ty*6,body[0].y+ty*28+tx*6);
+          ctx.moveTo(stemEnd, waggle * 0.5);
+          ctx.lineTo(tipEnd, -forkW + waggle);
+          ctx.moveTo(stemEnd, waggle * 0.5);
+          ctx.lineTo(tipEnd, forkW + waggle);
+          ctx.stroke();
+          ctx.restore();
+
+          // 2. Head Silhouette (Viper spade geometry with wide venom glands)
+          ctx.save();
+          ctx.shadowColor = "#FF0000";
+          ctx.shadowBlur = 16 + rageLevel * 26;
+
+          ctx.beginPath();
+          // Neck connection
+          ctx.moveTo(-16, -7);
+          // Wide flared venom gland cheeks
+          ctx.bezierCurveTo(-14, -15, -7, -17.5, -2, -17);
+          // Jawline tapering towards eyes
+          ctx.bezierCurveTo(4, -16.5, 9, -14, 13, -10);
+          // Tapered snout
+          ctx.bezierCurveTo(17, -7.5, 20, -5, 23, -2.5);
+          // Blunt rounded rostral apex (tip of snout)
+          ctx.quadraticCurveTo(24.5, 0, 23, 2.5);
+          // Lower snout
+          ctx.bezierCurveTo(20, 5, 17, 7.5, 13, 10);
+          // Lower jawline
+          ctx.bezierCurveTo(9, 14, 4, 16.5, -2, 17);
+          // Lower venom gland
+          ctx.bezierCurveTo(-7, 17.5, -14, 15, -16, 7);
+          // Neck joint
+          ctx.quadraticCurveTo(-18, 0, -16, -7);
+          ctx.closePath();
+
+          ctx.fillStyle = color;
+          ctx.fill();
+
+          ctx.shadowBlur = 0;
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 3.2;
+          ctx.lineJoin = "round";
+          ctx.stroke();
+
+          // 3. Backward-curving lethal Viper Fangs
+          ctx.fillStyle = "#FFFFFF";
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 1.6;
+          [-1, 1].forEach((sign) => {
+            ctx.beginPath();
+            const fx = 12;
+            const fy = sign * 9.5;
+            ctx.moveTo(fx, fy);
+            // Fang curves backward and inward
+            ctx.quadraticCurveTo(fx + 2, fy + sign * 5, fx - 4, fy + sign * 7.5);
+            ctx.quadraticCurveTo(fx - 1, fy + sign * 4, fx - 1.5, fy);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+          });
+
+          // 4. Crown Scales / Dorsal Armor Plates
+          ctx.fillStyle = "rgba(0, 0, 0, 0.28)";
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 1.8;
+
+          // Main crown diamond (frontal/parietal shield)
+          ctx.beginPath();
+          ctx.moveTo(-10, 0);
+          ctx.lineTo(-3, -6);
+          ctx.lineTo(5, -4.5);
+          ctx.lineTo(9, 0);
+          ctx.lineTo(5, 4.5);
+          ctx.lineTo(-3, 6);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+
+          // Midline canthus rostralis ridge to snout tip
+          ctx.beginPath();
+          ctx.moveTo(9, 0);
+          ctx.lineTo(20, 0);
+          ctx.stroke();
+
+          // Sensory pits & nostrils near snout tip
+          ctx.fillStyle = "#000000";
+          ctx.beginPath();
+          ctx.arc(18, -3.8, 1.4, 0, Math.PI * 2);
+          ctx.arc(18, 3.8, 1.4, 0, Math.PI * 2);
+          ctx.fill();
+
+          // 5. Predatory Glowing Eyes with Slit Pupils
+          const renderRageEye = (sign: number) => {
+            const ex = 5;
+            const ey = sign * 10.5;
+
+            ctx.save();
+            ctx.translate(ex, ey);
+            ctx.rotate(sign * 0.28);
+
+            // Fiery sclera with yellow/amber glow
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 5.2, 3.4, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "#FFCC00";
+            ctx.fill();
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 1.8;
+            ctx.stroke();
+
+            // Inner crimson iris ring
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 3.6, 2.6, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "#FF2200";
+            ctx.fill();
+
+            // Razor-sharp vertical reptilian slit pupil
+            ctx.beginPath();
+            ctx.moveTo(0, -3.2);
+            ctx.quadraticCurveTo(1.2, 0, 0, 3.2);
+            ctx.quadraticCurveTo(-1.2, 0, 0, -3.2);
+            ctx.fillStyle = "#000000";
+            ctx.fill();
+
+            // Glint specular dot
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(-1.1, -1.4, 1.1, 1.1);
+
+            ctx.restore();
+
+            // Heavy armored supraocular brow scale ridge
+            ctx.beginPath();
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 2.8;
+            ctx.lineCap = "round";
+            ctx.moveTo(ex - 5.5, ey - sign * 3.8);
+            ctx.lineTo(ex + 5.5, ey - sign * 2.4);
+            ctx.stroke();
+          };
+
+          renderRageEye(-1);
+          renderRageEye(1);
+
+          ctx.restore();
+        } else {
+          // ─── INTERLOCKING SERPENTINE SCALE SEGMENTS ────────────────
+          const half = size / 2;
+          const len = size * 0.8;
+
+          ctx.fillStyle = color;
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = i < 6 ? 2.4 : 1.8;
+          ctx.lineJoin = "round";
+
+          if (i < 5) {
+            ctx.shadowColor = "#FF2200";
+            ctx.shadowBlur = 6;
+          } else {
+            ctx.shadowColor = "#000000";
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+          }
+
+          ctx.beginPath();
+          if (isTail) {
+            // Lethal tail rattle / stinger barb
+            ctx.moveTo(len * 0.6, 0);
+            ctx.lineTo(0, -half * 0.6);
+            ctx.lineTo(-len * 1.8, 0);
+            ctx.lineTo(0, half * 0.6);
+          } else {
+            // Hexagonal dorsal scute scale
+            ctx.moveTo(len, 0);
+            ctx.lineTo(len * 0.4, -half);
+            ctx.lineTo(-len * 0.75, -half * 0.9);
+            ctx.lineTo(-len, 0);
+            ctx.lineTo(-len * 0.75, half * 0.9);
+            ctx.lineTo(len * 0.4, half);
+          }
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.shadowBlur = 0;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 0;
+          ctx.stroke();
+
+          // Dorsal ridge spine accent
+          ctx.beginPath();
+          ctx.strokeStyle = "rgba(0, 0, 0, 0.35)";
+          ctx.lineWidth = 1.4;
+          ctx.moveTo(len * 0.6, 0);
+          ctx.lineTo(-len * 0.6, 0);
           ctx.stroke();
         }
+
         ctx.restore();
       }
 
