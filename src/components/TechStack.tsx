@@ -76,7 +76,7 @@ const techCategories: TechCategory[] = [
       "Cross-platform mobile applications with fluid gestures and offline sync.",
     items: [
       {
-        name: "React.js",
+        name: "React Native",
         level: "Intermediate",
         icon: <SiReact size={18} className="text-[#0ea5e9]" />,
         iconBg: "bg-[#e0f2fe]",
@@ -167,7 +167,6 @@ export default function TechStack() {
       style={{ fontFamily: "var(--font-fredoka), cursive, sans-serif" }}
     >
       <div className="w-full max-w-[1104px] mx-auto px-6">
-        {/* Eyebrow Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -181,7 +180,6 @@ export default function TechStack() {
           </span>
         </motion.div>
 
-        {/* Main Title */}
         <motion.h2
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -194,7 +192,6 @@ export default function TechStack() {
           Technologies
         </motion.h2>
 
-        {/* 2x2 Grid of Category Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7">
           {techCategories.map((category, catIndex) => (
             <motion.div
@@ -218,7 +215,6 @@ export default function TechStack() {
                 {category.description}
               </p>
 
-              {/* Badges / Tech Pills */}
               <div className="flex flex-wrap gap-3">
                 {category.items.map((item) => (
                   <motion.div

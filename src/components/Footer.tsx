@@ -6,10 +6,10 @@ import { SiGithub, SiDiscord, SiFacebook, SiInstagram, SiYoutube } from "react-i
 
 const navLinks = [
   { label: "About Padly", href: "#about" },
-  { label: "TechStack", href: "#tech-stack" },
+  { label: "Tech Stack", href: "#tech-stack" },
   { label: "Projects", href: "#projects" },
   { label: "Journey", href: "#journey" },
-  { label: "Contacts", href: "#contact" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const socialLinks = [
@@ -52,7 +52,7 @@ export default function Footer() {
     const target = document.getElementById(id);
     if (target) {
       const navOffset = 84;
-      const targetPos = target.getBoundingClientRect().top + window.pageYOffset - navOffset;
+      const targetPos = target.getBoundingClientRect().top + (window.scrollY ?? window.pageYOffset) - navOffset;
       window.scrollTo({
         top: Math.max(0, targetPos),
         behavior: "smooth",
@@ -67,9 +67,7 @@ export default function Footer() {
       style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
     >
       <div className="w-full max-w-[1040px] mx-auto px-6">
-        {/* Top 3-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 pb-6 sm:pb-7">
-          {/* Column 1: Brand & Bio (5 cols) */}
           <div className="md:col-span-5 flex flex-col gap-2.5">
             <div className="flex items-center gap-2.5">
               <Image
@@ -85,11 +83,10 @@ export default function Footer() {
             </div>
 
             <p className="text-[12px] leading-[1.65] text-[#9CA3AF] font-normal max-w-[340px]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.
+              Software engineering student at SMK Taruna Bhakti Depok, focusing on full-stack web architectures, reactive interfaces, and scalable backend systems.
             </p>
           </div>
 
-          {/* Column 2: Navigation (3 cols) */}
           <div className="md:col-span-3 md:pl-2 flex flex-col gap-1.5">
             <span className="font-mono font-bold text-[10.5px] tracking-[0.2em] text-[#9CA3AF] uppercase mb-1">
               NAVIGATION
@@ -109,7 +106,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Connect Online (4 cols) */}
           <div className="md:col-span-4 flex flex-col gap-1.5">
             <span className="font-mono font-bold text-[10.5px] tracking-[0.2em] text-[#9CA3AF] uppercase mb-1">
               CONNECT ONLINE
@@ -136,7 +132,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Subtle Horizontal Divider Line */}
         <div className="w-full border-t border-[#1F2228] pt-4 sm:pt-5">
           <p className="font-mono text-[11px] text-[#6B7280]">
             &copy; 2026 Padly Padilah. All rights reserved.
