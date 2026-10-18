@@ -119,7 +119,7 @@ export default function Hero() {
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
             >
               <Link
-                href="#about"
+                href="#projects"
                 className="h-[52px] px-7 rounded-full flex items-center gap-2 text-[16px] text-white shadow-[3px_3px_0px_#000] border-2 border-black"
                 style={{
                   backgroundColor: "#FF5C00",
