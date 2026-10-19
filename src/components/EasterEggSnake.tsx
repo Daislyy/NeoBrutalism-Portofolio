@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { X, Skull, AlertTriangle } from "lucide-react";
 
-// ─── Config — GEDE & KENCENG ─────────────────────────────────────────────────
 const PIXEL       = 26;
 const BASE_SPEED  = 5.5;
 const MAX_SPEED   = 14;
