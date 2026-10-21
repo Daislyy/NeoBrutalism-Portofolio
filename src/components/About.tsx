@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Send, Copy, Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 function InstagramIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
   return (
@@ -91,6 +92,7 @@ function DiscordIcon({ size = 18, className = "" }: { size?: number; className?:
 }
 
 export default function About() {
+  const { isDark } = useTheme();
   const [copied, setCopied] = useState(false);
   const email = "dlyy.dev@gmail.com";
 
@@ -114,7 +116,9 @@ export default function About() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
-        className="w-full rounded-[32px] border-[2.5px] border-black bg-[#FBF9F5] p-6 sm:p-9 md:p-11 lg:p-12 shadow-[6px_6px_0px_#000]"
+        className={`w-full rounded-[32px] border-[2.5px] border-black p-6 sm:p-9 md:p-11 lg:p-12 shadow-[6px_6px_0px_#000] transition-colors ${
+          isDark ? "bg-[#282D37] text-white" : "bg-[#FBF9F5] text-black"
+        }`}
       >
         {/* Top Badge: About Me */}
         <motion.div
@@ -126,10 +130,10 @@ export default function About() {
         >
           <motion.span
             whileHover={{ scale: 1.05 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFB800] border-2 border-black shadow-[2px_2px_0px_#000] cursor-default"
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border-2 border-black shadow-[2px_2px_0px_#000] cursor-default transition-colors ${isDark ? "bg-[#A855F7]" : "bg-[#FFB800]"}`}
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-black inline-block" />
-            <span className="font-semibold text-[13px] tracking-wide text-black">
+            <span className={`w-2.5 h-2.5 rounded-full inline-block ${isDark ? "bg-white" : "bg-black"}`} />
+            <span className={`font-semibold text-[13px] tracking-wide ${isDark ? "text-white" : "text-black"}`}>
               About Me
             </span>
           </motion.span>
@@ -148,23 +152,29 @@ export default function About() {
             <motion.div
               whileHover={{ y: -4, rotate: -0.5 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="w-full rounded-[24px] bg-[#FFECC7] border-[2.5px] border-black p-5 sm:p-6 shadow-[5px_5px_0px_#000] flex flex-col"
+              className={`w-full rounded-[24px] border-[2.5px] border-black p-5 sm:p-6 shadow-[5px_5px_0px_#000] flex flex-col transition-colors ${
+                isDark ? "bg-[#323846] text-white" : "bg-[#FFECC7] text-black"
+              }`}
             >
               {/* Header inside card */}
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border-2 border-black shadow-[2px_2px_0px_#000]">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-black shadow-[2px_2px_0px_#000] transition-colors ${
+                  isDark ? "bg-[#20242D] text-slate-200" : "bg-white text-black"
+                }`}>
                   <span className="w-2 h-2 rounded-full bg-[#10B981] inline-block animate-pulse" />
-                  <span className="font-medium text-[11px] sm:text-[12px] text-black">
+                  <span className="font-medium text-[11px] sm:text-[12px]">
                     Active Developer
                   </span>
                 </span>
-                <span className="font-medium text-[11px] sm:text-[12px] text-black">
+                <span className={`font-medium text-[11px] sm:text-[12px] ${
+                  isDark ? "text-slate-300" : "text-black"
+                }`}>
                   Depok, ID (UTC+7)
                 </span>
               </div>
 
               {/* Profile Photo */}
-              <div className="relative w-full aspect-[4/3] rounded-[18px] border-2 border-black overflow-hidden my-5 shadow-[2px_2px_0px_#000] bg-gray-100">
+              <div className="relative w-full aspect-[4/3] rounded-[18px] border-2 border-black overflow-hidden my-5 shadow-[2px_2px_0px_#000] bg-gray-100 dark:bg-[#16181F]">
                 <Image
                   src="/assets/dlyy.png"
                   alt="Padly Padilah"
@@ -182,7 +192,7 @@ export default function About() {
                       key={pill}
                       whileHover={{ scale: 1.06, y: -1 }}
                       transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                      className="px-3.5 py-1 bg-white border-2 border-black rounded-[8px] font-medium text-[12px] text-black shadow-[2px_2px_0px_#000] cursor-default"
+                      className="px-3.5 py-1 bg-white dark:bg-[#181A22] border-2 border-black rounded-[8px] font-medium text-[12px] text-black dark:text-[#E5E7EB] shadow-[2px_2px_0px_#000] cursor-default transition-colors"
                     >
                       {pill}
                     </motion.span>
@@ -192,7 +202,7 @@ export default function About() {
                   <motion.span
                     whileHover={{ scale: 1.04, y: -1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                    className="inline-block px-3.5 py-1 bg-white border-2 border-black rounded-[8px] font-medium text-[12px] text-black shadow-[2px_2px_0px_#000] cursor-default"
+                    className="inline-block px-3.5 py-1 bg-white dark:bg-[#181A22] border-2 border-black rounded-[8px] font-medium text-[12px] text-black dark:text-[#E5E7EB] shadow-[2px_2px_0px_#000] cursor-default transition-colors"
                   >
                     Web &amp; Mobile Developer
                   </motion.span>
@@ -210,17 +220,23 @@ export default function About() {
             transition={{ type: "spring", stiffness: 240, damping: 20, delay: 0.2 }}
           >
             <div>
-              <h2 className="text-[28px] sm:text-[34px] md:text-[37px] font-semibold text-[#141414] leading-[1.22] tracking-tight mb-5">
+              <h2 className={`text-[28px] sm:text-[34px] md:text-[37px] font-semibold leading-[1.22] tracking-tight mb-5 transition-colors ${
+                isDark ? "text-white" : "text-[#141414]"
+              }`}>
                 Bridging aesthetic rigor &amp; resilient backend systems.
               </h2>
 
-              <p className="text-[14px] sm:text-[15.5px] font-normal text-[#4B5563] leading-[1.7] mb-4">
+              <p className={`text-[14px] sm:text-[15.5px] font-normal leading-[1.7] mb-4 transition-colors ${
+                isDark ? "text-slate-300" : "text-[#4B5563]"
+              }`}>
                 I&apos;m a Full Stack Web Developer with focus on backend
                 building solid APIs, clean database structures, and systems that
                 stay maintainable as they grow.
               </p>
 
-              <p className="text-[14px] sm:text-[15.5px] font-normal text-[#4B5563] leading-[1.7]">
+              <p className={`text-[14px] sm:text-[15.5px] font-normal leading-[1.7] transition-colors ${
+                isDark ? "text-slate-300" : "text-[#4B5563]"
+              }`}>
                 For styling, I usually build on templates I&apos;ve put together
                 from previous projects, adapting them with an eye for clean,
                 intentional visual details.
@@ -228,7 +244,9 @@ export default function About() {
             </div>
 
             {/* Separator Line */}
-            <div className="w-full border-t border-black/20 my-7" />
+            <div className={`w-full border-t my-7 transition-colors ${
+              isDark ? "border-white/10" : "border-black/20"
+            }`} />
 
             {/* Social Media Buttons with tactile bouncy hover */}
             <div>
@@ -240,7 +258,7 @@ export default function About() {
                   href="https://discord.com/users/902753975521132635"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4.5 py-2.5 rounded-[14px] bg-[#C084FC] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer"
+                  className="px-4.5 py-2.5 rounded-[14px] bg-[#C084FC] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>Discord</span>
                   <DiscordIcon size={18} className="text-black" />
@@ -253,7 +271,7 @@ export default function About() {
                   href="https://github.com/Daislyy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4.5 py-2.5 rounded-[14px] bg-[#FFB800] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer"
+                  className="px-4.5 py-2.5 rounded-[14px] bg-[#FFB800] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>Github</span>
                   <GithubIcon size={18} className="text-black" />
@@ -266,7 +284,7 @@ export default function About() {
                   href="https://www.instagram.com/dlyy.23_/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4.5 py-2.5 rounded-[14px] bg-[#FF6B6B] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer"
+                  className="px-4.5 py-2.5 rounded-[14px] bg-[#FF6B6B] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>Instagram</span>
                   <InstagramIcon size={18} className="text-black" />
@@ -279,7 +297,7 @@ export default function About() {
                   href="https://www.facebook.com/azuto.mizanami/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4.5 py-2.5 rounded-[14px] bg-[#2DD4BF] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer"
+                  className="px-4.5 py-2.5 rounded-[14px] bg-[#2DD4BF] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>Facebook</span>
                   <FacebookIcon size={18} className="text-black" />
@@ -292,7 +310,7 @@ export default function About() {
                   href="https://www.youtube.com/@Dlyy840"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4.5 py-2.5 rounded-[14px] bg-[#EF4444] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer"
+                  className="px-4.5 py-2.5 rounded-[14px] bg-[#EF4444] border-2 border-black shadow-[3px_3px_0px_#000] font-medium text-[13px] text-black flex items-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>Youtube</span>
                   <YoutubeIcon size={18} className="text-black" />
@@ -303,13 +321,15 @@ export default function About() {
               <motion.div
                 whileHover={{ y: -2 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="mt-7 border-2 border-black rounded-[18px] p-3.5 sm:p-4 bg-white shadow-[4px_4px_0px_#000] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className={`mt-7 border-2 border-black rounded-[18px] p-3.5 sm:p-4 shadow-[4px_4px_0px_#000] flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors ${
+                  isDark ? "bg-[#323846] text-white" : "bg-white text-black"
+                }`}
               >
                 <div className="flex items-center gap-3.5">
                   <motion.div
                     whileHover={{ rotate: 12, scale: 1.08 }}
                     transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                    className="w-11 h-11 rounded-[12px] bg-[#FF5C00] border-2 border-black flex items-center justify-center shrink-0 shadow-[2px_2px_0px_#000] cursor-pointer"
+                    className={`w-11 h-11 rounded-[12px] border-2 border-black flex items-center justify-center shrink-0 shadow-[2px_2px_0px_#000] cursor-pointer ${isDark ? "bg-[#9333EA]" : "bg-[#FF5C00]"}`}
                   >
                     <Send
                       size={18}
@@ -318,17 +338,23 @@ export default function About() {
                     />
                   </motion.div>
                   <div className="flex flex-col">
-                    <span className="font-semibold text-[13px] sm:text-[14px] text-black leading-tight">
+                    <span className={`font-semibold text-[13px] sm:text-[14px] leading-tight transition-colors ${
+                      isDark ? "text-white" : "text-black"
+                    }`}>
                       Direct Contact &amp; Collaboration
                     </span>
-                    <span className="font-normal text-[11px] sm:text-[12px] text-[#6B7280] leading-tight mt-1">
+                    <span className={`font-normal text-[11px] sm:text-[12px] leading-tight mt-1 transition-colors ${
+                      isDark ? "text-slate-300" : "text-[#6B7280]"
+                    }`}>
                       Drop an email or subscribe for project updates
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
-                  <span className="border-2 border-black bg-white rounded-[10px] px-3.5 py-1.5 text-[12px] font-medium text-black select-all">
+                  <span className={`border-2 border-black rounded-[10px] px-3.5 py-1.5 text-[12px] font-medium select-all transition-colors ${
+                    isDark ? "bg-[#20242D] text-slate-200" : "bg-white text-black"
+                  }`}>
                     {email}
                   </span>
                   <motion.button
@@ -336,7 +362,7 @@ export default function About() {
                     whileTap={{ scale: 0.94, x: 1, y: 1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 15 }}
                     onClick={handleCopy}
-                    className="bg-[#FFB800] hover:bg-[#FFA500] border-2 border-black rounded-[10px] px-4 py-1.5 text-[12px] font-medium text-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5 cursor-pointer"
+                    className={`border-2 border-black rounded-[10px] px-4 py-1.5 text-[12px] font-medium shadow-[2px_2px_0px_#000] flex items-center gap-1.5 cursor-pointer transition-colors ${isDark ? "bg-[#10B981] hover:bg-[#059669] text-white" : "bg-[#FFB800] hover:bg-[#FFA500] text-black"}`}
                   >
                     {copied ? (
                       <>

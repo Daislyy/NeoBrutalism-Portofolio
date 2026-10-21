@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 interface GlitchBeatVisualizerProps {
   isPlaying: boolean;
@@ -16,6 +17,7 @@ export default function GlitchBeatVisualizer({
   isBeat,
   frequencyData = [0.2, 0.4, 0.6, 0.3, 0.5, 0.7, 0.4],
 }: GlitchBeatVisualizerProps) {
+  const { isDark } = useTheme();
   const barColors = [
     "#FF5C00",
     "#FFB800",
@@ -27,7 +29,9 @@ export default function GlitchBeatVisualizer({
   ];
 
   return (
-    <div className="relative flex items-center justify-between gap-2 px-3 py-2 rounded-[12px] bg-white border-2 border-black shadow-[2px_2px_0px_#000] overflow-hidden select-none">
+    <div className={`relative flex items-center justify-between gap-2 px-3 py-2 rounded-[12px] border-2 border-black shadow-[2px_2px_0px_#000] overflow-hidden select-none transition-colors ${
+      isDark ? "bg-[#20242D] text-white" : "bg-white text-black"
+    }`}>
       {/* Scanline flash */}
       {isPlaying && isBeat && (
         <motion.div
@@ -46,10 +50,12 @@ export default function GlitchBeatVisualizer({
               ? isBeat
                 ? "bg-[#FF0055] scale-125"
                 : "bg-[#22C55E]"
-              : "bg-neutral-300"
+              : (isDark ? "bg-neutral-600" : "bg-neutral-300")
           }`}
         />
-        <span className="font-mono text-[9.5px] sm:text-[10px] font-black uppercase tracking-wider text-black">
+        <span className={`font-mono text-[9.5px] sm:text-[10px] font-black uppercase tracking-wider transition-colors ${
+          isDark ? "text-slate-200" : "text-black"
+        }`}>
           {isPlaying ? (isBeat ? "⚡ BASS KICK" : "BEAT SYNC") : "AUDIO PAUSED"}
         </span>
       </div>

@@ -63,7 +63,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="w-full bg-[#111215] text-white pt-8 sm:pt-10 pb-6 sm:pb-7"
+      className="w-full bg-[#1A1D24] text-white pt-8 sm:pt-10 pb-6 sm:pb-7 border-t-2 border-black"
       style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
     >
       <div className="w-full max-w-[1040px] mx-auto px-6">
@@ -97,7 +97,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => handleScrollTo(e, link.href)}
-                    className="text-[13px] text-[#E5E7EB] hover:text-[#FF5C00] transition-colors font-medium inline-block cursor-pointer"
+                    className="text-[13px] text-[#E5E7EB] hover:text-[#C084FC] transition-colors font-medium inline-block cursor-pointer"
                   >
                     {link.label}
                   </a>

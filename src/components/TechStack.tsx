@@ -19,6 +19,7 @@ import {
 } from "react-icons/si";
 import { Layers } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 interface TechItem {
   name: string;
@@ -160,6 +161,8 @@ const techCategories: TechCategory[] = [
 ];
 
 export default function TechStack() {
+  const { isDark } = useTheme();
+
   return (
     <section
       id="tech-stack"
@@ -174,8 +177,8 @@ export default function TechStack() {
           transition={{ duration: 0.4 }}
           className="flex items-center gap-2 mb-3"
         >
-          <Layers size={14} className="text-[#059669]" strokeWidth={2.5} />
-          <span className="font-bold text-[12px] tracking-[0.2em] text-[#059669] uppercase">
+          <Layers size={14} className="text-[#059669] dark:text-[#34D399]" strokeWidth={2.5} />
+          <span className="font-bold text-[12px] tracking-[0.2em] text-[#059669] dark:text-[#34D399] uppercase transition-colors">
             Technical Stack
           </span>
         </motion.div>
@@ -185,7 +188,9 @@ export default function TechStack() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ type: "spring", stiffness: 240, damping: 20, delay: 0.1 }}
-          className="text-[38px] sm:text-[46px] md:text-[50px] font-bold text-[#141414] leading-[1.08] tracking-tight mb-10"
+          className={`text-[38px] sm:text-[46px] md:text-[50px] font-bold leading-[1.08] tracking-tight mb-10 transition-colors ${
+            isDark ? "text-white" : "text-[#141414]"
+          }`}
         >
           Curated
           <br />
@@ -206,12 +211,18 @@ export default function TechStack() {
                 delay: catIndex * 0.1,
               }}
               whileHover={{ y: -6 }}
-              className="bg-white rounded-[26px] border border-gray-200/90 p-6 sm:p-8 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-lg transition-shadow"
+              className={`rounded-[26px] border border-gray-200/90 dark:border-[#2A2D38] p-6 sm:p-8 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all ${
+                isDark ? "bg-[#282D37] text-white" : "bg-white text-black"
+              }`}
             >
-              <h3 className="text-[19px] sm:text-[20px] font-bold text-[#141414] tracking-tight">
+              <h3 className={`text-[19px] sm:text-[20px] font-bold tracking-tight transition-colors ${
+                isDark ? "text-white" : "text-[#141414]"
+              }`}>
                 {category.title}
               </h3>
-              <p className="text-[13px] sm:text-[14px] text-[#6B7280] font-normal mt-1.5 mb-6 leading-relaxed">
+              <p className={`text-[13px] sm:text-[14px] font-normal mt-1.5 mb-6 leading-relaxed transition-colors ${
+                isDark ? "text-slate-300" : "text-[#6B7280]"
+              }`}>
                 {category.description}
               </p>
 
@@ -222,7 +233,9 @@ export default function TechStack() {
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-[14px] border border-gray-200 bg-white hover:border-black/40 hover:shadow-sm transition-colors cursor-default"
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-[14px] border border-gray-200 dark:border-[#353B4B] hover:shadow-sm transition-colors cursor-default ${
+                      isDark ? "bg-[#323846] text-white" : "bg-white text-black"
+                    }`}
                   >
                     <div
                       className={`w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 ${item.iconBg}`}
@@ -230,10 +243,14 @@ export default function TechStack() {
                       {item.icon}
                     </div>
                     <div className="flex flex-col pr-1">
-                      <span className="text-[13px] font-bold text-[#141414] leading-tight">
+                      <span className={`text-[13px] font-bold leading-tight transition-colors ${
+                        isDark ? "text-white" : "text-[#141414]"
+                      }`}>
                         {item.name}
                       </span>
-                      <span className="text-[11px] font-normal text-[#6B7280] leading-tight mt-0.5">
+                      <span className={`text-[11px] font-normal leading-tight mt-0.5 transition-colors ${
+                        isDark ? "text-slate-300" : "text-[#6B7280]"
+                      }`}>
                         {item.level}
                       </span>
                     </div>

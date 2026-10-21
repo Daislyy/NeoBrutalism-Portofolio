@@ -15,8 +15,11 @@ import Trajectory from "@/components/Trajectory";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
+import { useTheme } from "@/context/ThemeContext";
+
 export default function HomeClient() {
   const [isLoading, setIsLoading] = useState(true);
+  const { isDark } = useTheme();
 
   return (
     <>
@@ -28,7 +31,14 @@ export default function HomeClient() {
       <DragonRoar />
       <FullScreenGlitch />
 
-      <main style={{ backgroundColor: "#FBF9F5" }}>
+      <main
+        data-theme={isDark ? "dark" : "light"}
+        className={`min-h-screen transition-colors duration-200 ${
+          isDark
+            ? "dark bg-[#20242D] text-[#F8FAFC]"
+            : "bg-[#FBF9F5] text-[#141414]"
+        }`}
+      >
         {isLoading && <TerminalLoader onComplete={() => setIsLoading(false)} />}
         <Navbar />
         <Hero />

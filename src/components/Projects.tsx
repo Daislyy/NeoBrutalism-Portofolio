@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Project {
   id: string;
@@ -54,6 +55,8 @@ const projects: Project[] = [
 ];
 
 export default function Projects() {
+  const { isDark } = useTheme();
+
   return (
     <section
       id="projects"
@@ -69,10 +72,14 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-2xl mx-auto mb-12 sm:mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black tracking-tight mb-4">
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4 transition-colors ${
+            isDark ? "text-white" : "text-black"
+          }`}>
             See The Projects
           </h2>
-          <p className="text-sm sm:text-base text-neutral-600 font-normal leading-relaxed">
+          <p className={`text-sm sm:text-base font-normal leading-relaxed transition-colors ${
+            isDark ? "text-slate-300" : "text-neutral-600"
+          }`}>
             A curated selection of web apps, tools, and platforms I&apos;ve engineered
           </p>
         </motion.div>
@@ -86,7 +93,9 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: index * 0.12 }}
-              className="group bg-white border-2 border-black rounded-[24px] p-5 sm:p-6 shadow-[8px_8px_0px_#000000] hover:shadow-[12px_12px_0px_#000000] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+              className={`group border-2 border-black rounded-[24px] p-5 sm:p-6 shadow-[8px_8px_0px_#000000] hover:shadow-[12px_12px_0px_#000000] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between ${
+                isDark ? "bg-[#282D37] text-white" : "bg-white text-black"
+              }`}
             >
               <div>
                 {/* Banner Thumbnail */}
@@ -109,19 +118,25 @@ export default function Projects() {
 
                 {/* Eyebrow Category */}
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF5C00] shrink-0" />
-                  <span className="font-mono font-bold text-[11px] tracking-wider text-neutral-500 uppercase truncate">
+                  <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${isDark ? "bg-[#A855F7]" : "bg-[#FF5C00]"}`} />
+                  <span className={`font-mono font-bold text-[11px] tracking-wider uppercase truncate transition-colors ${
+                    isDark ? "text-slate-300" : "text-neutral-500"
+                  }`}>
                     {project.category}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-bold text-black mb-3 tracking-tight">
+                <h3 className={`text-xl sm:text-2xl font-bold mb-3 tracking-tight transition-colors ${
+                  isDark ? "text-white" : "text-black"
+                }`}>
                   {project.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-[13px] sm:text-[13.5px] text-neutral-600 font-normal leading-relaxed mb-5">
+                <p className={`text-[13px] sm:text-[13.5px] font-normal leading-relaxed mb-5 transition-colors ${
+                  isDark ? "text-slate-300" : "text-neutral-600"
+                }`}>
                   {project.description}
                 </p>
               </div>
@@ -132,7 +147,9 @@ export default function Projects() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 text-[11px] font-mono font-bold text-neutral-800 bg-[#F4F4F5] border border-black rounded-[6px]"
+                      className={`px-2.5 py-1 text-[11px] font-mono font-bold border border-black rounded-[6px] transition-colors ${
+                        isDark ? "bg-[#323846] text-slate-200" : "bg-[#F4F4F5] text-neutral-800"
+                      }`}
                     >
                       {tag}
                     </span>
@@ -144,7 +161,11 @@ export default function Projects() {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 px-4 bg-black hover:bg-neutral-800 active:bg-neutral-900 text-white font-bold text-sm rounded-[12px] border border-black shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all flex items-center justify-center gap-2 select-none"
+                  className={`w-full py-3 px-4 font-bold text-sm rounded-[12px] border border-black shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all flex items-center justify-center gap-2 select-none ${
+                    isDark
+                      ? "bg-[#F8FAFC] text-black hover:bg-white"
+                      : "bg-black text-white hover:bg-neutral-800"
+                  }`}
                 >
                   <span>View Project</span>
                   <ArrowRight size={16} strokeWidth={2.5} />
@@ -166,7 +187,7 @@ export default function Projects() {
             href="https://github.com/Daislyy"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FFB800] hover:bg-[#FFC700] active:bg-[#FFA500] text-black font-extrabold text-sm sm:text-base rounded-full border-[2.5px] border-black shadow-[4px_4px_0px_#000000] hover:shadow-[2px_2px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 select-none"
+            className={`inline-flex items-center gap-2 px-6 py-3.5 text-sm sm:text-base rounded-full border-[2.5px] border-black shadow-[4px_4px_0px_#000000] hover:shadow-[2px_2px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 select-none font-extrabold ${isDark ? "bg-[#A855F7] hover:bg-[#9333EA] active:bg-[#7E22CE] text-white" : "bg-[#FFB800] hover:bg-[#FFC700] active:bg-[#FFA500] text-black"}`}
           >
             <span>See All Projects on GitHub</span>
             <ArrowUpRight size={18} strokeWidth={3} />

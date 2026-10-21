@@ -1,9 +1,13 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
 :root {
   --background: #FBF9F5;
   --foreground: #141414;
   --color-canvas: #FBF9F5;
+  --color-card: #FFFFFF;
+  --color-card-subtle: #FFECC7;
   --color-yellow: #FFB800;
   --color-orange: #FF5C00;
   --color-cream: #FFECC7;
@@ -12,16 +16,32 @@
   --color-badge-yellow: #FFD600;
 }
 
+.dark, [data-theme="dark"] {
+  --background: #20242D;
+  --foreground: #F8FAFC;
+  --color-canvas: #20242D;
+  --color-card: #282D37;
+  --color-card-subtle: #323846;
+  --color-yellow: #F59E0B;
+  --color-orange: #FB923C;
+  --color-cream: #323846;
+  --color-gray-panel: #2A2F3B;
+  --color-lavender: #A855F7;
+  --color-badge-yellow: #EAB308;
+}
+
 @theme {
   --font-fredoka: var(--font-fredoka), cursive, sans-serif;
   --font-inter: var(--font-inter), sans-serif;
-  --color-canvas: #FBF9F5;
-  --color-yellow-primary: #FFB800;
-  --color-orange-primary: #FF5C00;
-  --color-cream: #FFECC7;
-  --color-gray-panel: #F0F0F0;
-  --color-lavender: #C084FC;
-  --color-badge-yellow: #FFD600;
+  --color-canvas: var(--color-canvas);
+  --color-card: var(--color-card);
+  --color-card-subtle: var(--color-card-subtle);
+  --color-yellow-primary: var(--color-yellow);
+  --color-orange-primary: var(--color-orange);
+  --color-cream: var(--color-cream);
+  --color-gray-panel: var(--color-gray-panel);
+  --color-lavender: var(--color-lavender);
+  --color-badge-yellow: var(--color-badge-yellow);
 }
 
 html {
@@ -33,4 +53,5 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-fredoka), cursive, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }

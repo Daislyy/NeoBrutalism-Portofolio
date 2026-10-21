@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 interface TrajectoryItem {
   id: string;
@@ -55,6 +56,8 @@ const trajectoryData: TrajectoryItem[] = [
 ];
 
 export default function Trajectory() {
+  const { isDark } = useTheme();
+
   return (
     <section
       id="journey"
@@ -70,13 +73,17 @@ export default function Trajectory() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-2xl mx-auto mb-14 sm:mb-20"
         >
-          <span className="font-mono font-bold text-[12px] sm:text-[13px] tracking-[0.2em] text-[#059669] uppercase mb-2 inline-block">
+          <span className="font-mono font-bold text-[12px] sm:text-[13px] tracking-[0.2em] text-[#059669] dark:text-[#34D399] uppercase mb-2 inline-block transition-colors">
             EDUCATION &amp; JOURNEY
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black tracking-tight mb-3">
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-3 transition-colors ${
+            isDark ? "text-white" : "text-black"
+          }`}>
             The Trajectory
           </h2>
-          <p className="text-sm sm:text-base text-neutral-600 font-normal leading-relaxed">
+          <p className={`text-sm sm:text-base font-normal leading-relaxed transition-colors ${
+            isDark ? "text-slate-300" : "text-neutral-600"
+          }`}>
             Academic foundation, software engineering studies, and continuous technical craft.
           </p>
         </motion.div>
@@ -85,7 +92,9 @@ export default function Trajectory() {
         <div className="relative pl-6 sm:pl-10">
           {/* Vertical Timeline Axis Line */}
           <div
-            className="absolute left-[11px] sm:left-[19px] top-4 bottom-8 w-[2.5px] bg-black"
+            className={`absolute left-[11px] sm:left-[19px] top-4 bottom-8 w-[2.5px] transition-colors ${
+              isDark ? "bg-[#4B5563]" : "bg-black"
+            }`}
             aria-hidden="true"
           />
 
@@ -106,36 +115,44 @@ export default function Trajectory() {
                 />
 
                 {/* Neo-brutalist Card */}
-                <div className="bg-white border-[2.5px] border-black rounded-[20px] sm:rounded-[24px] p-5 sm:p-7 shadow-[8px_8px_0px_#000000] hover:shadow-[12px_12px_0px_#000000] hover:-translate-y-1 transition-all duration-200">
+                <div className={`border-[2.5px] border-black rounded-[20px] sm:rounded-[24px] p-5 sm:p-7 shadow-[8px_8px_0px_#000000] hover:shadow-[12px_12px_0px_#000000] hover:-translate-y-1 transition-all duration-200 ${
+                  isDark ? "bg-[#282D37] text-white" : "bg-white text-black"
+                }`}>
                   {/* Top Bar: Period Pill & Location */}
                   <div className="flex items-center justify-between gap-4 mb-4">
                     {/* Period Badge */}
                     <span
                       className={`inline-block font-mono font-bold text-xs sm:text-[13px] tracking-wider px-3 py-1 rounded-[8px] border-2 border-black ${
                         item.isCurrent
-                          ? "bg-[#FFB800] text-black"
-                          : "bg-white text-black"
+                          ? (isDark ? "bg-[#A855F7] text-white" : "bg-[#FFB800] text-black")
+                          : (isDark ? "bg-[#323846] text-white" : "bg-white text-black")
                       }`}
                     >
                       {item.period}
                     </span>
 
                     {/* Location */}
-                    <span className="font-mono text-xs sm:text-[13px] text-neutral-500 font-medium">
+                    <span className={`font-mono text-xs sm:text-[13px] font-medium transition-colors ${
+                      isDark ? "text-slate-300" : "text-neutral-500"
+                    }`}>
                       {item.location}
                     </span>
                   </div>
 
                   {/* Title & Institution */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-black tracking-tight mb-1">
+                  <h3 className={`text-xl sm:text-2xl font-bold tracking-tight mb-1 transition-colors ${
+                    isDark ? "text-white" : "text-black"
+                  }`}>
                     {item.role}
                   </h3>
-                  <p className="text-xs sm:text-sm font-bold text-[#FF5C00] tracking-wide mb-3">
+                  <p className={`text-xs sm:text-sm font-bold tracking-wide mb-3 transition-colors ${isDark ? "text-[#C084FC]" : "text-[#FF5C00]"}`}>
                     {item.institution}
                   </p>
 
                   {/* Description */}
-                  <p className="text-[13px] sm:text-sm text-neutral-600 font-normal leading-relaxed mb-5">
+                  <p className={`text-[13px] sm:text-sm font-normal leading-relaxed mb-5 transition-colors ${
+                    isDark ? "text-slate-300" : "text-neutral-600"
+                  }`}>
                     {item.description}
                   </p>
 
@@ -146,7 +163,7 @@ export default function Trajectory() {
                         return (
                           <span
                             key={skill.name}
-                            className="px-3 py-1 text-xs font-mono font-bold text-white bg-[#059669] border-2 border-black rounded-[6px]"
+                            className="px-3 py-1 text-xs font-mono font-bold text-white bg-[#059669] dark:bg-[#047857] border-2 border-black rounded-[6px]"
                           >
                             {skill.name}
                           </span>
@@ -156,7 +173,7 @@ export default function Trajectory() {
                         return (
                           <span
                             key={skill.name}
-                            className="px-3 py-1 text-xs font-mono font-bold text-[#059669] bg-[#ecfdf5] border-2 border-[#059669] rounded-[6px]"
+                            className="px-3 py-1 text-xs font-mono font-bold text-[#059669] dark:text-[#34D399] bg-[#ecfdf5] dark:bg-[#06231a] border-2 border-[#059669] dark:border-[#047857] rounded-[6px] transition-colors"
                           >
                             {skill.name}
                           </span>
@@ -166,7 +183,7 @@ export default function Trajectory() {
                       return (
                         <span
                           key={skill.name}
-                          className="px-3 py-1 text-xs font-mono font-bold text-black bg-white border-2 border-black rounded-[6px]"
+                          className="px-3 py-1 text-xs font-mono font-bold text-black dark:text-[#E5E7EB] bg-white dark:bg-[#22252F] border-2 border-black rounded-[6px] transition-colors"
                         >
                           {skill.name}
                         </span>

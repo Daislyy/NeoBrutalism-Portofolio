@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import GlitchBeatVisualizer from "./GlitchBeatVisualizer";
+import { useTheme } from "@/context/ThemeContext";
 
 const TRACK = {
   title: "Shelter",
@@ -33,6 +34,8 @@ function formatTime(secs: number) {
 }
 
 export default function MusicPlayer() {
+  const { isDark } = useTheme();
+
   // Audio state
   const [isPlaying, setIsPlaying] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
@@ -252,16 +255,16 @@ export default function MusicPlayer() {
             ? {
                 x: [8, 14, 6, 10],
                 y: [8, 12, 10, 8],
-                backgroundColor: ["#FFB800", "#FF0055", "#00F0FF", "#FF5C00"],
+                backgroundColor: ["#A855F7", "#FF0055", "#00F0FF", "#10B981"],
               }
             : {
                 x: 8,
                 y: 8,
-                backgroundColor: "#FFB800",
+                backgroundColor: isDark ? "#A855F7" : "#FFB800",
               }
         }
         transition={{ duration: 0.12 }}
-        className="absolute inset-0 rounded-[20px] sm:rounded-[24px] pointer-events-none"
+        className="absolute inset-0 rounded-[20px] sm:rounded-[24px] pointer-events-none transition-colors"
         style={{
           border: "2.5px solid #000",
         }}
@@ -278,7 +281,9 @@ export default function MusicPlayer() {
             : { x: 0, y: 0 }
         }
         transition={{ duration: 0.1 }}
-        className="relative w-full rounded-[20px] sm:rounded-[24px] p-4 sm:p-5 flex flex-col gap-2.5 sm:gap-3 bg-[#FFECC7] border-[2.5px] border-black"
+        className={`relative w-full rounded-[20px] sm:rounded-[24px] p-4 sm:p-5 flex flex-col gap-2.5 sm:gap-3 border-[2.5px] border-black transition-colors ${
+          isDark ? "bg-[#282D37] text-white" : "bg-[#FFECC7] text-[#141414]"
+        }`}
         style={{
           fontFamily: "var(--font-fredoka), cursive, sans-serif",
         }}
@@ -286,7 +291,9 @@ export default function MusicPlayer() {
         {/* Top Header: Radio Badge & Mute Toggle */}
         <div className="flex items-center justify-between gap-2">
           <span
-            className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white bg-[#141414] shadow-[1.5px_1.5px_0px_#000]"
+            className={`flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white shadow-[1.5px_1.5px_0px_#000] border border-black ${
+              isDark ? "bg-[#20242D]" : "bg-[#141414]"
+            }`}
           >
             <motion.div
               animate={isPlaying ? { scale: [1, 1.35, 1] } : {}}
@@ -300,13 +307,15 @@ export default function MusicPlayer() {
           {/* Mute Button */}
           <button
             onClick={() => setIsMuted(!isMuted)}
-            className="w-7 h-7 rounded-full bg-white border-2 border-black flex items-center justify-center shadow-[1.5px_1.5px_0px_#000] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className={`w-7 h-7 rounded-full border-2 border-black flex items-center justify-center shadow-[1.5px_1.5px_0px_#000] hover:scale-105 active:scale-95 transition-all cursor-pointer ${
+              isDark ? "bg-[#353B4B]" : "bg-white"
+            }`}
             aria-label={isMuted ? "Unmute" : "Mute"}
           >
             {isMuted ? (
               <VolumeX size={13} strokeWidth={2.5} className="text-red-500" />
             ) : (
-              <Volume2 size={13} strokeWidth={2.5} className="text-neutral-800" />
+              <Volume2 size={13} strokeWidth={2.5} className={isDark ? "text-slate-200" : "text-neutral-800"} />
             )}
           </button>
         </div>
@@ -314,13 +323,13 @@ export default function MusicPlayer() {
         {/* NOW PLAYING Badge */}
         <div className="flex items-center gap-2">
           <span
-            className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-[5px] bg-[#FFD600] text-[#141414] border-[1.5px] border-black shadow-[1px_1px_0px_#000]"
+            className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-[5px] border-[1.5px] border-black shadow-[1px_1px_0px_#000] ${isDark ? "bg-[#A855F7] text-white" : "bg-[#FFD600] text-[#141414]"}`}
           >
             <motion.div
               animate={isPlaying ? { rotate: [0, 360] } : {}}
               transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
             >
-              <Play size={10} className="fill-[#FF5C00] text-[#FF5C00]" strokeWidth={2.5} />
+              <Play size={10} className={isDark ? "fill-[#C084FC] text-[#C084FC]" : "fill-[#FF5C00] text-[#FF5C00]"} strokeWidth={2.5} />
             </motion.div>
             {isPlaying ? "NOW PLAYING" : "READY TO PLAY"}
           </span>
@@ -342,12 +351,18 @@ export default function MusicPlayer() {
                 : { textShadow: "none", x: 0 }
             }
             transition={{ duration: 0.15 }}
-            className="text-[28px] sm:text-[34px] md:text-[38px] font-black text-[#141414] leading-[1.05] tracking-tight"
+            className={`text-[28px] sm:text-[34px] md:text-[38px] font-black leading-[1.05] tracking-tight transition-colors ${
+              isDark ? "text-white" : "text-[#141414]"
+            }`}
           >
             {TRACK.title}
           </motion.h3>
 
-          <p className="text-[13px] sm:text-[15px] font-medium text-[#6B7280] mt-0.5 sm:mt-1 truncate">
+          <p
+            className={`text-[13px] sm:text-[15px] font-medium mt-0.5 sm:mt-1 truncate transition-colors ${
+              isDark ? "text-slate-300" : "text-[#6B7280]"
+            }`}
+          >
             {TRACK.artist}
           </p>
         </div>
@@ -355,9 +370,9 @@ export default function MusicPlayer() {
         {/* Album Badge */}
         <div>
           <span
-            className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-[5px] bg-[#FFD600] text-[#141414] border-[1.5px] border-black shadow-[1px_1px_0px_#000]"
+            className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-[5px] border-[1.5px] border-black shadow-[1px_1px_0px_#000] ${isDark ? "bg-[#C084FC] text-white" : "bg-[#FFD600] text-[#141414]"}`}
           >
-            <Music size={11} strokeWidth={2.5} className="text-[#141414]" />
+            <Music size={11} strokeWidth={2.5} className={isDark ? "text-white" : "text-[#141414]"} />
             {TRACK.album}
           </span>
         </div>
@@ -375,20 +390,24 @@ export default function MusicPlayer() {
         {/* Progress Bar & Timers */}
         <div className="flex flex-col gap-1.5">
           <div
-            className="w-full h-[7px] rounded-full overflow-hidden cursor-pointer bg-[#D1D5DB] border border-black/30 relative"
+            className={`w-full h-[7px] rounded-full overflow-hidden cursor-pointer border border-black/30 relative ${
+              isDark ? "bg-[#353B4B]" : "bg-[#D1D5DB]"
+            }`}
             onClick={handleSeek}
             title="Click to seek"
           >
             <motion.div
               className="h-full rounded-full"
               style={{
-                backgroundColor: isPlaying && isBeat ? "#FF5C00" : "#141414",
+                backgroundColor: isPlaying && isBeat ? (isDark ? "#A855F7" : "#FF5C00") : (isDark ? "#F8FAFC" : "#141414"),
               }}
               animate={{ width: `${progress * 100}%` }}
               transition={{ duration: 0.15, ease: "linear" }}
             />
           </div>
-          <div className="flex justify-between text-[11px] text-[#6B7280] font-mono font-bold">
+          <div className={`flex justify-between text-[11px] font-mono font-bold transition-colors ${
+            isDark ? "text-slate-300" : "text-[#6B7280]"
+          }`}>
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(maxDuration)}</span>
           </div>
@@ -403,12 +422,12 @@ export default function MusicPlayer() {
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             onClick={() => setIsShuffle(!isShuffle)}
             aria-label="Shuffle"
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000]"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000] transition-colors"
             style={{
-              backgroundColor: isShuffle ? "#FFD600" : "#fff",
+              backgroundColor: isShuffle ? (isDark ? "#10B981" : "#FFD600") : (isDark ? "#353B4B" : "#fff"),
             }}
           >
-            <Shuffle size={16} strokeWidth={2.5} className="text-[#141414]" />
+            <Shuffle size={16} strokeWidth={2.5} className={isDark && !isShuffle ? "text-slate-200" : "text-[#141414]"} />
           </motion.button>
 
           {/* Previous (-10s) */}
@@ -417,10 +436,12 @@ export default function MusicPlayer() {
             whileTap={{ scale: 0.94, x: 1, y: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             aria-label="Rewind 10s"
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] bg-white flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000]"
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000] transition-colors ${
+              isDark ? "bg-[#353B4B] hover:bg-[#404759]" : "bg-white hover:bg-neutral-50"
+            }`}
             onClick={() => skipTime(-10)}
           >
-            <SkipBack size={16} strokeWidth={2.5} className="fill-[#141414] text-[#141414]" />
+            <SkipBack size={16} strokeWidth={2.5} className={isDark ? "fill-white text-white" : "fill-[#141414] text-[#141414]"} />
           </motion.button>
 
           {/* Master Play / Pause Button */}
@@ -432,8 +453,8 @@ export default function MusicPlayer() {
             aria-label={isPlaying ? "Pause" : "Play"}
             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white cursor-pointer shrink-0 border-[2.5px] border-black transition-all"
             style={{
-              backgroundColor: isPlaying && isBeat ? "#FF5C00" : "#141414",
-              boxShadow: isPlaying ? "3px 3px 0px #FF5C00" : "3px 3px 0px #FFB800",
+              backgroundColor: isPlaying && isBeat ? (isDark ? "#A855F7" : "#FF5C00") : (isDark ? "#9333EA" : "#141414"),
+              boxShadow: isPlaying ? (isDark ? "3px 3px 0px #A855F7" : "3px 3px 0px #FF5C00") : (isDark ? "3px 3px 0px #A855F7" : "3px 3px 0px #FFB800"),
             }}
           >
             {isPlaying ? (
@@ -449,10 +470,12 @@ export default function MusicPlayer() {
             whileTap={{ scale: 0.94, x: 1, y: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
             aria-label="Forward 10s"
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] bg-white flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000]"
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000] transition-colors ${
+              isDark ? "bg-[#353B4B] hover:bg-[#404759]" : "bg-white hover:bg-neutral-50"
+            }`}
             onClick={() => skipTime(10)}
           >
-            <SkipForward size={16} strokeWidth={2.5} className="fill-[#141414] text-[#141414]" />
+            <SkipForward size={16} strokeWidth={2.5} className={isDark ? "fill-white text-white" : "fill-[#141414] text-[#141414]"} />
           </motion.button>
 
           {/* Repeat Toggle */}
@@ -460,17 +483,17 @@ export default function MusicPlayer() {
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.94, x: 1, y: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            onClick={() => setIsRepeat(!isRepeat)}
+            onClick={setIsRepeat.bind(null, !isRepeat)}
             aria-label="Repeat"
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000]"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] sm:rounded-[12px] flex items-center justify-center cursor-pointer shrink-0 border-2 border-black shadow-[2px_2px_0px_#000] transition-colors"
             style={{
-              backgroundColor: isRepeat ? "#C084FC" : "#fff",
+              backgroundColor: isRepeat ? (isDark ? "#9333EA" : "#C084FC") : (isDark ? "#353B4B" : "#fff"),
             }}
           >
             <Repeat
               size={16}
               strokeWidth={2.5}
-              className={isRepeat ? "text-white" : "text-[#141414]"}
+              className={isRepeat ? "text-white" : (isDark ? "text-slate-200" : "text-[#141414]")}
             />
           </motion.button>
         </div>

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 import { Sun, Moon, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -16,7 +16,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [isDark, setIsDark] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -39,7 +39,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[76px] sm:h-[82px] bg-[#FBF9F5]/90 backdrop-blur-md border-b border-black/10 flex items-center">
+    <header
+      className={`sticky top-0 z-50 w-full h-[76px] sm:h-[82px] backdrop-blur-md transition-colors duration-200 flex items-center ${
+        isDark
+          ? "bg-[#20242D]/90 border-b border-black/40"
+          : "bg-[#FBF9F5]/90 border-b border-black/10"
+      }`}
+    >
       <div className="w-full max-w-[1104px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-2">
         {/* avatar */}
         <Link
@@ -65,10 +71,18 @@ export default function Navbar() {
             />
           </motion.div>
           <div className="flex flex-col">
-            <span className="font-bold text-[16px] sm:text-[18px] text-[#141414] leading-tight tracking-tight">
+            <span
+              className={`font-bold text-[16px] sm:text-[18px] leading-tight tracking-tight transition-colors ${
+                isDark ? "text-white" : "text-[#141414]"
+              }`}
+            >
               padly.dev
             </span>
-            <span className="font-semibold text-[8.5px] sm:text-[10px] tracking-[0.12em] text-[#71717A] uppercase leading-none max-w-[120px] sm:max-w-none truncate">
+            <span
+              className={`font-semibold text-[8.5px] sm:text-[10px] tracking-[0.12em] uppercase leading-none max-w-[120px] sm:max-w-none truncate transition-colors ${
+                isDark ? "text-slate-300" : "text-[#71717A]"
+              }`}
+            >
               WEB &amp; MOBILE DEV
             </span>
           </div>
@@ -81,27 +95,36 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               onClick={(e) => handleScrollTo(e, link.href)}
-              className="text-[14px] font-semibold leading-[20px] text-[#141414] hover:text-[#FF5C00] transition-colors relative group cursor-pointer"
+              className={`text-[14px] font-semibold leading-[20px] transition-colors relative group cursor-pointer ${
+                isDark
+                  ? "text-slate-200 hover:text-[#C084FC]"
+                  : "text-[#141414] hover:text-[#FF5C00]"
+              }`}
             >
               {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FF5C00] transition-all group-hover:w-full" />
+              <span className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all group-hover:w-full ${isDark ? "bg-[#A855F7]" : "bg-[#FF5C00]"}`} />
             </a>
           ))}
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
           <motion.button
+            id="theme-toggle"
             whileHover={{ scale: 1.08, rotate: 15 }}
             whileTap={{ scale: 0.92 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            onClick={() => setIsDark(!isDark)}
+            onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000] cursor-pointer shrink-0 transition-colors ${
+              isDark
+                ? "bg-[#282D37] hover:bg-[#323846]"
+                : "bg-white hover:bg-neutral-50"
+            }`}
           >
             {isDark ? (
-              <Moon size={16} strokeWidth={2.5} className="text-[#141414]" />
+              <Sun size={17} strokeWidth={2.5} className="text-[#C084FC]" />
             ) : (
-              <Sun size={16} strokeWidth={2.5} className="text-[#141414]" />
+              <Moon size={16} strokeWidth={2.5} className="text-[#141414]" />
             )}
           </motion.button>
 
@@ -109,10 +132,11 @@ export default function Navbar() {
             whileHover={{ scale: 1.04, y: -1 }}
             whileTap={{ scale: 0.96, x: 1, y: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            href="/cv.pdf"
+            href="/assets/Cv%20-%20Padly%20Padilah.pdf"
+            download="Cv - Padly Padilah.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="h-[38px] sm:h-[44px] px-3.5 sm:px-5 rounded-full bg-[#FFB800] hover:bg-[#FFC700] border-2 border-black font-bold text-[12.5px] sm:text-[15px] text-[#141414] flex items-center gap-1.5 sm:gap-2 shadow-[2px_2px_0px_#000] cursor-pointer whitespace-nowrap shrink-0"
+            className={`h-[38px] sm:h-[44px] px-3.5 sm:px-5 rounded-full border-2 border-black font-bold text-[12.5px] sm:text-[15px] flex items-center gap-1.5 sm:gap-2 shadow-[2px_2px_0px_#000] cursor-pointer whitespace-nowrap shrink-0 transition-colors ${isDark ? "bg-[#A855F7] hover:bg-[#9333EA] text-white" : "bg-[#FFB800] hover:bg-[#FFC700] text-[#141414]"}`}
           >
             <span><span className="hidden sm:inline">Download </span>CV</span>
             <ArrowRight size={15} strokeWidth={2.5} className="shrink-0" />
